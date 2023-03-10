@@ -7,4 +7,4 @@ este es el apartado web del proyecto
 ## Inicializar
 
 para inicializar el proyecto web en tu equipo clona el repo y luego abre un terminal para ejecutar comando __"npm run dev"__
-el cual iniciará el proyecto en el puerto 3000
+el cual iniciará el proyecto en http://localhost/3000
