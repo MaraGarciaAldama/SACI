@@ -1,12 +1,7 @@
-import Header from "./Head"
+import { SideNavBar } from "./SideBar"
 
-const Layout = ({children}) => {
-  return (
-    <>
-        <Header/>
-        {children}
-    </>
-  )
+export const Layout = ({ children }) => {
+  return <SideNavBar>
+    {children}
+  </SideNavBar>
 }
-
-export default Layout
