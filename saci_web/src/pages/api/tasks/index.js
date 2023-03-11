@@ -1,5 +1,5 @@
 import { formatter } from "@/utils/dateformat"
-import { connex, conex } from "@/utils/dbconn"
+import { connex } from "@/utils/dbconn"
 
 const handeling = async (req, res) => {
     const { method, body: { title, description } } = req
