@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+
 const RTChart = (props) => {
     const [interval, setInterval] = useState(props.interval || 1000);
     const [data, setData] = useState([]);
