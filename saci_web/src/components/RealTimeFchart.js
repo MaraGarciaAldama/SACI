@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const RTChart = (props) => {
-    const [interval, setInterval] = useState(props.interval || 1000);
-    const [data, setData] = useState([]);
+const RTChart = ({tick}) => {
+    const [interval, setinterval] = useState(tick || 1000)
+    const [data, setData] = useState([])
 
     const dataFetching = async () => {
         let data_bar = []
@@ -25,25 +25,25 @@ const RTChart = (props) => {
         return data_bar
     }
 
-    const tick = async () => {
-        setData(await dataFetching());
+    const ticker = async () => {
+        setData(await dataFetching())
     }
 
     useEffect(() => {
         const timerID = setInterval(() => {
-            tick();
-        }, interval);
+            ticker()
+        }, interval)
 
         return () => {
-            clearInterval(timerID);
-        };
-    }, [interval]);
+            clearInterval(timerID)
+        }
+    }, [interval])
 
     useEffect(() => {
         dataFetching().then((data) => {
-            setData(data);
-        });
-    }, []);
+            setData(data)
+        })
+    }, [])
 
     return (
         <ResponsiveContainer width="100%" aspect={3} height="100%">
@@ -69,4 +69,4 @@ const RTChart = (props) => {
     );
 }
 
-export default RTChart;
+export default RTChart
