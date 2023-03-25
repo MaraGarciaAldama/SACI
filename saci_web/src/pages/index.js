@@ -1,8 +1,8 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
 import { obtainAvg } from "@/utils/sortRegisters"
 import { Container, Tab } from "semantic-ui-react"
-import { RTChart } from "@/components/RealTimeChart"
 import DatePicker from "@/components/DatePicker"
+import { RTChart } from "@/components/RealTimeChart"
 
 const HomePage = ({ param }) => {
 

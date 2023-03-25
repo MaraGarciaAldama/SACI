@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const RTChart = ({tick}) => {
@@ -10,15 +10,13 @@ const RTChart = ({tick}) => {
         try {
             const jsonParam = await fetch('http://localhost:3000/api/saci/realTime/')
             const param = await jsonParam.json()
-            const final = param.map(({ createdAt, dist, temp }) => {
+            data_bar = param.map(({ createdAt, dist, temp }) => {
                 return {
                     createdAt: createdAt.split(' ')[1],
                     dist: dist,
                     temp: temp
                 }
             })
-            data_bar = final
-            console.log(final)
         } catch (error) {
             console.log(error)
         }
@@ -26,7 +24,8 @@ const RTChart = ({tick}) => {
     }
 
     const ticker = async () => {
-        setData(await dataFetching())
+        const data = await dataFetching()
+        setData(data)
     }
 
     useEffect(() => {
@@ -39,10 +38,9 @@ const RTChart = ({tick}) => {
         }
     }, [interval])
 
-    useEffect(() => {
-        dataFetching().then((data) => {
-            setData(data)
-        })
+    useEffect(async () => {
+        const data = await dataFetching()
+        setData(data)
     }, [])
 
     return (
@@ -68,5 +66,3 @@ const RTChart = ({tick}) => {
         </ResponsiveContainer>
     );
 }
-
-export default RTChart

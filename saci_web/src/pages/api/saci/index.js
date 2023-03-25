@@ -7,6 +7,8 @@ const handeling = async (req, res) => {
     switch (method) {
         case "GET":
             try {
+                const reptasks = await collection.aggregate([{$match:{createdAt:{$regex:/-11-/}}}]).toArray()
+                console.log(reptasks)
                 const tasks = await collection.find().sort({ createdAt: -1 }).toArray()
                 return res.status(200).json(tasks)
             } catch (error) {
