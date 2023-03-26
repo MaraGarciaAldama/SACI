@@ -1,6 +1,5 @@
 import { TasksCards } from "@/components/TaskCard"
 import NoTasks from "@/components/NoTasks"
-import { Grid } from "semantic-ui-react"
 
 const Notifications = ({ tasks }) => {
     return (

@@ -2,14 +2,13 @@
 export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
 const detail = (registers) => {
-    const detailed = registers.map(({ dist, temp, createdAt, updatedAt }) => {
+    const detailed = registers.map(({ dist, day, month, temp, createdAt }) => {
         return {
             dist: dist,
             temp: temp,
             createdAt: createdAt,
-            updatedAt: updatedAt,
-            day: new Date(createdAt).getDate(),
-            month: new Date(createdAt).getMonth(),
+            day: day,
+            month: month,
             monthName: months[new Date(createdAt).getMonth()]
         }
     })
@@ -21,14 +20,14 @@ const monthsAvg = (registers) => {
     months.forEach((month) => {
         const mon = registers.filter(({ monthName }) => monthName == month)
         let details = {}
-        if(isNaN((mon.reduce((a, b) => a += b.dist, 0)) / mon.length)){
+        if (isNaN((mon.reduce((a, b) => a += b.dist, 0)) / mon.length)) {
             details = {
                 dist: "Sin medida",
                 temp: "Sin medida",
                 monthName: mon[0]?.monthname,
                 month: mon[0]?.month
             }
-        }else{
+        } else {
             details = {
                 dist: (mon.reduce((a, b) => a += b.dist, 0)) / mon.length,
                 temp: (mon.reduce((a, b) => a += b.temp, 0)) / mon.length,

@@ -1,25 +1,11 @@
-export const formatter = indate => {
-  const begin = {
-    "isDate": indate instanceof Date && !isNaN(indate.valueOf()),
-    "noNull": indate ? true : false
-  }
-  const date = begin.isDate && begin.noNull ? indate : new Date(Date.now())
-  const padtwo = num => num.toString().padStart(2, '0')
-  try {
-    const fullDate = date.toLocaleDateString()
-    const dateReve = fullDate.split('/').reverse()
-    const datePadd = dateReve.map(padtwo).join('-')
-    const fullTime = date.toTimeString().split(' ')
-    return `${datePadd} ${fullTime[0]}`
-  } catch (error) {
-    return
-  }
-}
+import { formatter } from "@/utils/dateformat"
+
 const RandomInt = (min, max) => {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
 const fullyearfiller = () => {
   let count = 0
   let registers = []
@@ -29,18 +15,20 @@ const fullyearfiller = () => {
     const hrss = RandomInt(0, 23)
     const mins = RandomInt(0, 59)
     const secs = RandomInt(0, 59)
-    const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
+    const createdAt = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
+    const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs), false)
     const register = {
       dist: RandomInt(0, 19),
       temp: RandomInt(0, 19),
-      updatedAt: res,
-      createdAt: res
+      createdAt,
+        ...res
     }
     registers.push(register)
     count++
   }
   return registers
 }
+
 const filler = () => {
   let count = 0
   let registers = []
@@ -50,12 +38,13 @@ const filler = () => {
     const hrss = RandomInt(0, new Date(Date.now()).getHours())
     const mins = RandomInt(0, new Date(Date.now()).getMinutes())
     const secs = RandomInt(0, new Date(Date.now()).getSeconds())
-    const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
+    const createdAt = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
+    const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs), false)
     const register = {
       dist: RandomInt(0, 19),
       temp: RandomInt(0, 19),
-      updatedAt: res,
-      createdAt: res
+      createdAt,
+        ...res
     }
     registers.push(register)
     count++

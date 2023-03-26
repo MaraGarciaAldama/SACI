@@ -1,16 +1,51 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/utils/dbconn"
+import { months } from "@/utils/sortRegisters"
 
 const handeling = async (req, res) => {
     const { method, body } = req
     const { collection } = await connex(process.env.SDB, process.env.SREGS)
+    const aggregations = (month) => {
+        return collection.aggregate([
+            { $match: { month: month } },
+            { $sort: { createdAt: 1 } },
+            {
+                $project: {
+                    dist: { $avg: '$dist' },
+                    temp: { $avg: '$temp' },
+                    createdAt: '$createdAt',
+                    month: '$month',
+                    day: '$day',
+                    _id: 0
+                }
+            }
+        ]).toArray()
+    }
+    const monthsAvg = () => {
+        return collection.aggregate([
+            {
+                $group: {
+                    _id: '$month',
+                    dist: { $avg: '$dist' },
+                    temp: { $avg: '$temp' },
+                    month: { '$first': '$month' }
+                }
+            },
+            { $sort: { month: 1 } },
+            { $project: { _id: 0, } }
+        ]).toArray()
+    }
+
     switch (method) {
         case "GET":
             try {
-                const reptasks = await collection.aggregate([{$match:{createdAt:{$regex:/-11-/}}}]).toArray()
-                console.log(reptasks)
+                const avgs = months.map((e, i) => aggregations(i))
+                const promises = await Promise.allSettled(avgs)
+                const monthAvg = await monthsAvg()
+                const yearAvg = promises.map(({ value }) => value)
                 const tasks = await collection.find().sort({ createdAt: -1 }).toArray()
-                return res.status(200).json(tasks)
+                const result = { tasks, monthAvg, yearAvg }
+                return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
@@ -21,9 +56,8 @@ const handeling = async (req, res) => {
                     const newtask = await collection.insertMany(body)
                     return res.status(201).json(newtask)
                 }
-                const createdAt = formatter()
-                const updatedAt = formatter()
-                const taskbody = { ...body, createdAt, updatedAt }
+                const createdAt = { timeStamp: formatter(), ...formatter('', false) }
+                const taskbody = { ...body, createdAt }
                 const newtask = await collection.insertOne(taskbody)
                 return res.status(201).json(newtask)
             } catch (error) {

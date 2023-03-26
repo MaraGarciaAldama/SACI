@@ -4,14 +4,14 @@ import { Container, Tab } from "semantic-ui-react"
 import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
 
-const HomePage = ({ param }) => {
-
-  const { ordered, monthavg, daymonth } = obtainAvg(param)
+const HomePage = ({ records }) => {
+  const { tasks, monthAvg, yearAvg } = records
+  const { ordered, monthavg, daymonth } = obtainAvg(tasks)
 
   const minpanes = SaciPanes(daymonth)
 
   const panes = [
-    { menuItem: 'Detallado', render: () => <Tab.Pane attached={false}>{<SaciChart data={monthavg} />}</Tab.Pane> },
+    { menuItem: 'Detallado', render: () => <Tab.Pane attached={false}>{<SaciChart data={ordered} />}</Tab.Pane> },
     { menuItem: 'Promedio mensual', render: () => <Tab.Pane attached={false}>{<SaciChart data={monthavg} />}</Tab.Pane> },
     {
       menuItem: 'Promedio diario', render: () => <Tab.Pane attached={false}>
@@ -53,10 +53,10 @@ const HomePage = ({ param }) => {
 
 export const getServerSideProps = async ctx => {
   const jsonParam = await fetch('http://localhost:3000/api/saci/')
-  const param = await jsonParam.json()
+  const records = await jsonParam.json()
   return {
     props: {
-      param
+      records
     }
   }
 }
