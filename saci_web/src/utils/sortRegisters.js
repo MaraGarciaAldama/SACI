@@ -9,7 +9,7 @@ const detail = (registers) => {
             createdAt: createdAt,
             day: day,
             month: month,
-            monthName: months[new Date(createdAt).getMonth()]
+            monthName: months[month]
         }
     })
     return detailed

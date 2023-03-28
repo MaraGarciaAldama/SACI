@@ -1,7 +1,7 @@
 import { formatter } from '@/utils/dateformat'
 import { useState } from 'react'
 import ReactDatePicker from "react-datepicker"
-import { Button, Container, Grid, Header, Icon, Label, Modal } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon, Label, Modal } from 'semantic-ui-react'
 import { SaciChartWithDays } from './SaciChart'
 
 const DatePicker = ({ data }) => {

@@ -5,6 +5,10 @@ const RandomInt = (min, max) => {
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
+const RandomFloat = (min, max, decimals) => {
+  const str = (Math.random() * (max - min) + min).toFixed(decimals)
+  return parseFloat(str)
+}
 
 const fullyearfiller = () => {
   let count = 0
@@ -18,10 +22,12 @@ const fullyearfiller = () => {
     const createdAt = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
     const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs), false)
     const register = {
-      dist: RandomInt(0, 19),
-      temp: RandomInt(0, 19),
+      uScm: RandomFloat(1.7, 3.5, 3),
+      tds: RandomInt(250, 350),
+      nm: RandomInt(100, 370),
+      ppm: RandomInt(300,390),
       createdAt,
-        ...res
+      ...res
     }
     registers.push(register)
     count++
@@ -44,7 +50,7 @@ const filler = () => {
       dist: RandomInt(0, 19),
       temp: RandomInt(0, 19),
       createdAt,
-        ...res
+      ...res
     }
     registers.push(register)
     count++

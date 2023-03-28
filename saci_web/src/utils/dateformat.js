@@ -1,3 +1,5 @@
+import { months } from "./sortRegisters"
+
 export const formatter = (indate, mode = true) => {
     const begin = {
         "isDate": indate instanceof Date && !isNaN(indate.valueOf()),
@@ -14,8 +16,8 @@ export const formatter = (indate, mode = true) => {
             return `${datePadd} ${fullTime[0]}`
         } else {
             const allDates = [date.getFullYear(), date.getMonth(), date.getDate()]
-            const [year, month, day] = allDates.map(d=>Number(padtwo(d)))
-            return { year, month, day }
+            const [year, month, day] = allDates.map(d => Number(padtwo(d)))
+            return { year, month, day, monthName: months[month] }
         }
     } catch (error) {
         return
