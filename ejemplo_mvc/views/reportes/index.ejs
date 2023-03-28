@@ -1,0 +1,115 @@
+<%- include('../layout/header'); %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div id="chart-1">
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Hora</th>
+              <th scope="col">Temperatura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach((item) => { %>
+              <tr>
+                <td><%= item.date %></td>
+                <td><%= item.value %>°C</td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var options = {
+      chart: {
+        type: 'line',
+        animations: {
+          enabled: true,
+          easing: 'linear',
+          dynamicAnimation: {
+            speed: 1000
+          }
+        },
+      },
+      title: {
+        text: '<%= title %>',
+      },
+      series: [
+        <%- JSON.stringify(serie1) %>,
+        /*{
+          name: '< title %>',
+          data: < JSON.stringify(values) %>,
+        },*/
+      ],
+      xaxis: {
+        categories: <%- JSON.stringify(times) %>,
+      },
+      yaxis: {
+        labels: {
+          formatter: function (value) {
+            return value + "°C";
+          }
+        },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: 24.2,
+            borderColor: '#ff0033',
+            label: {
+              borderColor: '#ff0093',
+              style: {
+                  color: '#fff',
+                  background: '#ff0083',
+              },
+            },
+          },
+          {
+            y: 22.2,
+            borderColor: '#08ff08',
+            label: {
+              borderColor: '#08ff08',
+              style: {
+                  color: '#fff',
+                  background: '#660083',
+              },
+            },
+          },
+        ],
+      },
+      legend: {
+        show: true
+      },
+      events: {
+        animationEnd: function (chartCtx, opts) {
+          
+          // check animation end event for just 1 series to avoid multiple updates
+          //if (opts.el.node.getAttribute('index') === '0') {
+            window.setTimeout(function () {
+              
+              chartCtx.updateOptions({
+                series: [<%- JSON.stringify(serie1) %>,],
+              }, false, false);
+             
+             console.log("exec");
+            }, 300)
+          //}
+
+        }
+      },
+    }
+
+    var chart = new ApexCharts(document.querySelector("#chart-1"), options);
+    chart.render();
+
+  </script>
+
+<%- include('../layout/footer'); %>
