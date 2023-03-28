@@ -1,0 +1,31 @@
+<%- include('../layout/header'); %>
+
+  <div class="container">
+    <h3>Lista de productos</h3>
+    <!-- mostrar la lista de productos -->
+    
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach((item) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.description %></td>
+            <td><%= item.price %></td>
+            <td>
+              <button type="button" class="btn btn-outline-info">Editar</button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <%- include('../layout/footer'); %>
