@@ -5,23 +5,24 @@ import { months } from "@/utils/sortRegisters"
 const handeling = async (req, res) => {
     const { method, body } = req
     const { collection } = await connex(process.env.SDB, process.env.SREGS)
+    
     const aggregations = (month) => {
         return collection.aggregate([
             { $match: { month: month } },
             { $sort: { createdAt: 1 } },
             {
-                $project: {
+                $group: {
+                    _id: '$day',
                     uScm: { $avg: '$uScm' },
                     tds: { $avg: '$tds' },
                     nm: { $avg: '$nm' },
                     ppm: { $avg: '$ppm' },
-                    createdAt: '$createdAt',
-                    month: '$month',
-                    day: '$day',
-                    monthName: months[month],
-                    _id: 0
+                    month: { '$first': '$month' },
+                    day: { '$first': '$day' }
                 }
-            }
+            },
+            { $sort: { day: 1 }},
+            { $project: { _id: 0, } }
         ]).toArray()
     }
     const monthsAvg = () => {
