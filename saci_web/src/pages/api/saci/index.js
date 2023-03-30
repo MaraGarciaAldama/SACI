@@ -1,5 +1,5 @@
 import { formatter } from "@/utils/dateformat"
-import { connex } from "@/utils/dbconn"
+import { connex } from "@/models/dbconn"
 import { months } from "@/utils/sortRegisters"
 
 const handeling = async (req, res) => {
