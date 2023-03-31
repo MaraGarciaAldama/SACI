@@ -1,8 +1,7 @@
 const {MongoClient} = require("mongodb")
-const uri = process.env.ATLAS_URI
 
-const client = new MongoClient(uri)
-
+const createClient = (uri = process.env.ATLAS_URI) => new MongoClient(uri)
+const client = createClient('mongodb://127.0.0.1:27017')
 let dbConnection;
 
 module.exports = {
