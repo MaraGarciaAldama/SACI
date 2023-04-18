@@ -8,7 +8,7 @@ exports.index = async (req, res) => {
         .find()
         .toArray();
 
-        res.json(interfaces);
+        res.status(200).json(interfaces);
     }    catch(error){
         console.error(error);
         return res.status(503)
@@ -29,7 +29,7 @@ exports.add = async (req, res) => {
             id, fecha, value 
         });
 
-        res.json({
+        res.status(201).json({
             message: 'El producto fue creado correctamente.',
             dato
         });

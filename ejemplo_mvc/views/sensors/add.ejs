@@ -1,0 +1,71 @@
+<%- include('../layout/header'); %>
+
+  <div class="container">
+    <form method="post" id="new-sensor" action="/api/sensores">
+      <div class="row">
+        <div class="col-12">
+          <h4>Registrar sensor</h4>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input class="form-control" id="name" name="name" required/>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Descripción:</label>
+            <input class="form-control" id="description" name="description" />
+          </div>
+        </div>
+        <div class="col-12 py-2 text-center">
+          <input type="submit" class="btn btn-primary" value="Registrar sensor"/>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<script>
+  // ejecutar lote de código cuando se termine de cargar todo el contenido
+  $(document).ready(function() {
+    // asociar el evento submit para procesar el envío del form
+    // a la api
+    console.log("documento listo");
+
+    $("#new-sensor").on("submit", function(e) {
+      // e: representa el evento que se está ejecutando
+      e.preventDefault(); //evitar el submit clásico
+
+      // enviar el form por ajax
+      console.log("enviando form");
+
+      // fetch
+      // pero: leer cada uno de los valores y armar el obejto de datos
+      let sensor = {};
+      sensor.name = $("#new-sensor #name").val();
+      sensor.description = $("#new-sensor #description").val();
+
+      fetch("/api/sensores", {
+        method: 'post',
+        body: JSON.stringify(sensor),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // ya se tiene la respuesta del servidor.
+        console.log(data);
+        // limpiar form, o llevarlo al index - lista de sensores
+        $("#new-sensor").reset(); // limpiar el formulario
+      })
+      .catch((error) => {
+        // informar el error
+      });
+
+      // jqueryForm
+       // hay que instalarlo
+       //  ejecutar submitAjax() y esperar respuesta
+
+    });
+  }); 
+</script>
+
+<%- include('../layout/footer'); %>

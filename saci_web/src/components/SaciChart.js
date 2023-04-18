@@ -2,7 +2,7 @@ import { months } from "@/utils/sortRegisters"
 import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { Tab, Table } from "semantic-ui-react"
 
-export const SaciChart = ({ data }) => {
+export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
   return (
     <ResponsiveContainer width="100%" aspect={3} height="100%">
       <LineChart style={{ backgroundColor: "white", borderRadius: "5px", margin: "1px" }}
@@ -15,9 +15,8 @@ export const SaciChart = ({ data }) => {
         data={data}
       >
         <CartesianGrid strokeDasharray="2 2" />
-        <XAxis type="category" allowDuplicatedCategory={true} dataKey="monthName" />
+        <XAxis type="category" allowDuplicatedCategory={true} dataKey={dataKeyX} />
         <YAxis
-          domain={[0, 20]}
           axisLine={false}
           tickLine={false}
           tickCount={12}
@@ -26,8 +25,7 @@ export const SaciChart = ({ data }) => {
         />
         <Tooltip />
         <Legend />
-        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey="dist" stroke="#8884d8" />
-        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey="temp" stroke="#82ca9d" />
+        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey={dataKeyY} stroke="#8884d8" />
         <Brush height={20} />
       </LineChart>
     </ResponsiveContainer>
@@ -58,8 +56,10 @@ export const SaciChartWithDays = ({ data }) => {
         />
         <Tooltip />
         <Legend />
-        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey="dist" stroke="#8884d8" />
-        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey="temp" stroke="#82ca9d" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="ppm" stroke="#8884d8" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="tds" stroke="#8884d8" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="uScm" stroke="#82ca9d" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="nm" stroke="#82ca9d" />
         <Brush height={20} />
       </LineChart>
     </ResponsiveContainer>
@@ -101,7 +101,6 @@ const SaciChartDay = ({ data }) => {
         <CartesianGrid strokeDasharray="2 2" />
         <XAxis type="category" allowDuplicatedCategory={true} dataKey="day" />
         <YAxis
-          domain={[0, 20]}
           axisLine={false}
           tickLine={false}
           tickCount={12}
@@ -110,8 +109,10 @@ const SaciChartDay = ({ data }) => {
         />
         <Tooltip allowEscapeViewBox={false} />
         <Legend />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="dist" stroke="#8884d8" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="temp" stroke="#82ca9d" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="ppm" stroke="#8884d8" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="tds" stroke="#8884d8" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="uScm" stroke="#82ca9d" />
+        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="nm" stroke="#82ca9d" />
       </LineChart>
     </ResponsiveContainer>
   )
@@ -119,21 +120,10 @@ const SaciChartDay = ({ data }) => {
 
 export const SaciTable = ({ data }) => {
   const firts = data[0]
-  const heads = []
-  for (const key in firts) {
-    if (firts.hasOwnProperty.call(firts, key)) {
-      heads.push(key)
-    }
-  }
+  const heads = Object.keys(firts)
   const headerr = heads.map(h => <Table.HeaderCell collapsing>{h}</Table.HeaderCell>)
-  const body = data.map((r, i) => {
-    const cells = []
-    for (const key in r) {
-      if (r.hasOwnProperty.call(r, key)) {
-        const element = r[key]
-        cells.push(element)
-      }
-    }
+  const body = data.map(r => {
+    const cells = Object.values(r)
     const roww = cells.map(c => <Table.Cell collapsing>{c}</Table.Cell>)
     return <Table.Row>{roww}</Table.Row>
   })

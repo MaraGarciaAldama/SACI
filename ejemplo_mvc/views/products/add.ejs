@@ -1,0 +1,101 @@
+<%- include('../layout/header'); %>
+
+  <div class="container">
+    <div id="alert-content">
+    </div>
+    <form method="post" id="new-producto">
+      <div class="row">
+        <div class="col-12">
+          <h4>Registrar producto</h4>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input class="form-control" id="name" name="name" required/>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Descripción:</label>
+            <input class="form-control" id="description" name="description" />
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Precio:</label>
+            <input class="form-control" type="number" id="price" name="price" />
+          </div>
+        </div>
+        <div class="col-12 py-4 text-center">
+          <input type="submit" class="btn btn-primary" value="Registrar producto"/>
+          <a href="/products" class="btn btn-link">Ir a la lista de productos</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<script>
+  // ejecutar lote de código cuando se termine de cargar todo el contenido
+  $(document).ready(function() {
+    // asociar el evento submit para procesar el envío del form
+
+    $("#new-producto").on("submit", function(e) {
+      // e: representa el evento que se está ejecutando
+      e.preventDefault(); //evitar el submit clásico
+
+      // leer cada uno de los valores y armar el obejto de datos
+      let producto = {};
+      producto.name = $("#new-producto #name").val();
+      producto.description = $("#new-producto #description").val();
+      producto.price = parseFloat($("#new-producto #price").val(), 10);
+
+      // enviar los datos al backed
+      fetch("/api/products", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(producto),
+      })
+      .then((response) => response.json()) // pasar la respuesta a json para que sea legible
+      .then((data) => {
+        // ya se tiene la respuesta del servidor.
+        console.log(data);
+        // limpiar form, o llevarlo al index - lista de productoes
+        $(".container #new-producto").trigger("reset"); // limpiar el formulario
+
+        // limpiar campo por campo
+        $("#new-producto #name").val("");
+
+        // mostrar el mensaje de respuesta
+        $(".container #alert-content").html(
+          '<div class="alert alert-success" role="alert">' +
+          data.message +
+          '</div>'
+        );
+
+        // redireccionar a la lista de productos
+        setTimeout(function() {
+            window.location.assign("/products")
+          },
+          2000
+        );
+      })
+      .catch((error) => {
+        // informar el error
+        $(".container #alert-content").html(
+          '<div class="alert alert-danger" role="alert">' +
+          error.message || 'Error al guardar el producto' +
+          '</div>'
+        );
+      });
+
+      // jqueryForm
+       // hay que instalarlo
+       //  ejecutar submitAjax() y esperar respuesta
+
+    });
+  }); 
+</script>
+
+<%- include('../layout/footer'); %>

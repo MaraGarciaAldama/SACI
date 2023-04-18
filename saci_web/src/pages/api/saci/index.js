@@ -1,24 +1,28 @@
 import { formatter } from "@/utils/dateformat"
-import { connex } from "@/utils/dbconn"
+import { connex } from "@/models/dbconn"
 import { months } from "@/utils/sortRegisters"
 
 const handeling = async (req, res) => {
     const { method, body } = req
     const { collection } = await connex(process.env.SDB, process.env.SREGS)
+    
     const aggregations = (month) => {
         return collection.aggregate([
             { $match: { month: month } },
             { $sort: { createdAt: 1 } },
             {
-                $project: {
-                    dist: { $avg: '$dist' },
-                    temp: { $avg: '$temp' },
-                    createdAt: '$createdAt',
-                    month: '$month',
-                    day: '$day',
-                    _id: 0
+                $group: {
+                    _id: '$day',
+                    uScm: { $avg: '$uScm' },
+                    tds: { $avg: '$tds' },
+                    nm: { $avg: '$nm' },
+                    ppm: { $avg: '$ppm' },
+                    month: { '$first': '$month' },
+                    day: { '$first': '$day' }
                 }
-            }
+            },
+            { $sort: { day: 1 }},
+            { $project: { _id: 0, } }
         ]).toArray()
     }
     const monthsAvg = () => {
@@ -26,9 +30,12 @@ const handeling = async (req, res) => {
             {
                 $group: {
                     _id: '$month',
-                    dist: { $avg: '$dist' },
-                    temp: { $avg: '$temp' },
-                    month: { '$first': '$month' }
+                    uScm: { $avg: '$uScm' },
+                    tds: { $avg: '$tds' },
+                    nm: { $avg: '$nm' },
+                    ppm: { $avg: '$ppm' },
+                    month: { '$first': '$month' },
+                    monthName: { '$first': '$monthName' }
                 }
             },
             { $sort: { month: 1 } },
@@ -43,7 +50,7 @@ const handeling = async (req, res) => {
                 const promises = await Promise.allSettled(avgs)
                 const monthAvg = await monthsAvg()
                 const yearAvg = promises.map(({ value }) => value)
-                const tasks = await collection.find().sort({ createdAt: -1 }).toArray()
+                const tasks = await collection.aggregate([{$sort:{createdAt:-1}},{$project:{_id:0}}]).toArray()
                 const result = { tasks, monthAvg, yearAvg }
                 return res.status(200).json(result)
             } catch (error) {

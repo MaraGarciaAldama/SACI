@@ -7,11 +7,13 @@ export class RTChart extends Component {
         try {
             const jsonParam = await fetch('http://localhost:3000/api/saci/realTime/')
             const param = await jsonParam.json()
-            const final = param.map(({ createdAt, dist, temp }) => {
+            const final = param.map(({ createdAt, uScm, tds, nm, ppm }) => {
                 return {
                     createdAt: createdAt.split(' ')[1],
-                    dist: dist,
-                    temp: temp
+                    uScm: uScm,
+                    tds: tds,
+                    nm: nm,
+                    ppm: ppm
                 }
             })
             data_bar = final
@@ -64,8 +66,10 @@ export class RTChart extends Component {
                     <CartesianGrid strokeDasharray="2 2" />
                     <Tooltip />
                     <Legend />
-                    <Line animationDuration={0} type="monotone" dataKey="dist" fill="#8884d8" stroke="#8884d8" />
-                    <Line animationDuration={0} type="monotone" dataKey="temp" fill="#8214d8" stroke="#82ca9d" />
+                    <Line animationDuration={0} type="monotone" dataKey="uScm" fill="#8884d8" stroke="#8884d8" />
+                    <Line animationDuration={0} type="monotone" dataKey="tds" fill="#8214d8" stroke="#82ca9d" />
+                    <Line animationDuration={0} type="monotone" dataKey="nm" fill="#8884d8" stroke="#8884d8" />
+                    <Line animationDuration={0} type="monotone" dataKey="ppm" fill="#8214d8" stroke="#82ca9d" />
                 </LineChart>
             </ResponsiveContainer>
         )
