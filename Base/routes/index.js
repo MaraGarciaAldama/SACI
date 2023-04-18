@@ -10,6 +10,9 @@ const sensoresConroller = require("../controllers/sensores");
 const bitacorasController = require("../controllers/bitacoras");
 const reportesController = require("../controllers/reportes");
 
+//Areas
+const areasController = require ('../controllers/areas');
+
 module.exports = () =>{
     router.get("/", indexController.index);
 
@@ -36,6 +39,11 @@ module.exports = () =>{
     router.get("/log/:id", bitacorasController.show);
 
     router.get("/reportes", reportesController.index)
+
+      //mostrarAreas
+
+  router.get('/areas',areasController.index);
+
 
     return router;
 };
