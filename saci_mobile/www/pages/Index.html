@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/js.js"></script>
+    <link rel="icon" type="image/png" href="../images/icons/SACI_logo.png">
 </head>
 <body>
     <header>
@@ -16,14 +18,14 @@
         <div class="module">
             <label>Suelo</label>
             <a href="" class="enlace"><div class="sensors">
-                <div class="box"><img src="../images/grados.png" class="acomodar"> <label id="valueTemp">50°</label></div>
-                <div class="box"><img src="../images/grados.png" class="acomodar"> <label id="valueTemp">50°</label></div>
-                <div class="box"><img src="../images/grados.png" class="acomodar"> <label id="valueTemp">50°</label></div>
+                <div class="box"><img src="../images/ph.png" class="acomodar"> <label id="valueTemp">50°</label></div>
+                <div class="box"><img src="../images/planta.png" class="acomodar"> <label id="valueTemp">50°</label></div>
+                <div class="box"><img src="../images/plantatemp.png" class="acomodar"> <label id="valueTemp">50°</label></div>
             </div></a>
         </div>
         <div class="module">
             <label>Aire</label>
-            <a href="" class="enlace">
+            <a href="../pages/mouloAire.html" class="enlace">
                 <div class="sensors">
                     <div class="box">
                         <img src="../images/grados.png" class="acomodar">
@@ -71,13 +73,13 @@
         <div class="module">
             <label>Control de invernadero</label>
             <div class="sensors">
-                <div class="box">
-                    <img src="../images/grados.png" class="acomodar">
-                    <label>50°</label>
+                <div class="box" onclick="moveTinaco();">
+                    <img src="../images/tinaco.png" class="acomodar">
+                    <label id="tinaco">50%</label>
                 </div>
                 <div class="box">
                     <div class="control">
-                        <div class="controlItemUp"><img src="../images/radiacion.png" class="imgControl"></div>
+                        <div class="controlItemUp" onclick="moveToMalla();"><img src="../images/lamina.png" class="imgControl"></div>
                         <div class="controlItemDown">
                             <div class="toggle-button-cover">
                                 <div class="button-cover">
@@ -96,12 +98,12 @@
                 </div>
                 <div class="box">
                     <div class="control">
-                        <div class="controlItemUp"><img src="../images/gota.png" class="imgControl"></div>
+                        <div class="controlItemUp" onclick="changeSprinklers()"><img src="../images/aspersor.png" class="imgControl"></div>
                         <div class="controlItemDown">
                             <div class="toggle-button-cover">
                                 <div class="button-cover">
                                     <div class="button b2" id="button-10">
-                                    <input type="checkbox" class="checkbox" />
+                                    <input type="checkbox" class="checkbox" checked>
                                     <div class="knobs">
                                         <span>On</span>
                                     </div>
@@ -117,9 +119,9 @@
         </div>
     </div>
     <footer>
-        <a><diiv class="item"><img src="../images/ondas.png" alt=""> <label>Aire</label></diiv></a>
-        <a><diiv class="home"><img src="../images/SACI.png" alt=""></diiv></a>
-        <a><diiv class="item"><img src="../images/jardineria.png" alt=""> <label>Suelo</label></diiv></a>
+        <a href="../pages/mouloAire.html" class="quitar"><div class="item"><img src="../images/ondas.png" alt=""> <label>Aire</label></div></a>
+        <a><div class="home"><img src="../images/SACI.png" alt=""></div></a>
+        <a><div class="item"><img src="../images/jardineria.png" alt=""> <label>Suelo</label></div></a>
     </footer>
 </body>
 </html>
