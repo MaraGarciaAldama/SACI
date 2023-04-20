@@ -8,10 +8,10 @@ manual.checked = true;
 //automatico
 var estado = "OFF";
 
-if(estado=="ON"){
+if (estado == "ON") {
   manual.disabled = true;
   document.querySelector(".manual").style.opacity = 0.5;
-}else{
+} else {
 
 }
 
@@ -21,33 +21,33 @@ console.log('checkAutomatico' + automatico.checked);
 
 
 //Encender/apagar bomba Manualmente
-manual.addEventListener('click', function() {
-    if(manual.checked) {
-      console.log('El elemento está marcado');
-      
-      $.ajax({
-        url: "http://192.168.1.195:5000/apagar_rele",
-        type: "GET",
-        success: function(response) {
-          console.log(response);
-        },
-        error: function(error) {
-          console.error(error);
-        }
-      });
+manual.addEventListener('click', function () {
+  if (manual.checked) {
+    console.log('El elemento está marcado');
 
-    } else {
-      console.log('El elemento está marcado');
-          $.ajax({
-            url: "http://192.168.1.195:5000/encender_rele",
-            type: "GET",
-            success: function(response) {
-              console.log(response);
-            },
-            error: function(error) {
-              console.error(error);
-            }
-          });
-  
-    }
-  });
+    $.ajax({
+      url: "http://192.168.1.195:5000/apagar_rele",
+      type: "GET",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (error) {
+        console.error(error);
+      }
+    });
+
+  } else {
+    console.log('El elemento está marcado');
+    $.ajax({
+      url: "http://192.168.1.195:5000/encender_rele",
+      type: "GET",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (error) {
+        console.error(error);
+      }
+    });
+
+  }
+});
