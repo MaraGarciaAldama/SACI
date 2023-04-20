@@ -26,7 +26,7 @@ manual.addEventListener('click', function() {
       console.log('El elemento está marcado');
       
       $.ajax({
-        url: "http://localhost:5000/apagar_rele",
+        url: "http://192.168.1.195:5000/apagar_rele",
         type: "GET",
         success: function(response) {
           console.log(response);
@@ -37,9 +37,9 @@ manual.addEventListener('click', function() {
       });
 
     } else {
-
+      console.log('El elemento está marcado');
           $.ajax({
-            url: "http://localhost:5000/encender_rele",
+            url: "http://192.168.1.195:5000/encender_rele",
             type: "GET",
             success: function(response) {
               console.log(response);
