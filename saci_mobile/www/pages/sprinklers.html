@@ -25,7 +25,7 @@
             <img src="../images/sprinklers/sprinklerIcon.png" class="sprinklerIcon">
 
             <div class="buttonOnOff b100" id="button-100">
-                <input type="checkbox" class="checkbox1" />
+                <input type="checkbox" class="checkbox1" id="aspersores"/>
                 <div class="knobs1">
                     <span>On</span>
                 </div>
@@ -33,8 +33,8 @@
                 </div>
               
                 <label class="sprinklersCant">Cantidad de agua en litros</LAbel>
-                    <input type="text" id="sprinklersLiters" class="sprinklersLiters">
-                    <input type="button" value="Aceptar" class="sprinklersSubmit">
+                    <input type="text" id="sprinklersLiters" placeholder="30" class="sprinklersLiters" disabled>
+                    <input type="button" value="Cambiar Estado" class="sprinklersSubmit">
         </div>
     </div>
     <footer>
@@ -42,6 +42,8 @@
         <a href="Index.html" class="quitar"><div class="home"><img src="../images/SACI.png" alt=""></div></a>
         <a href="../pages/suelo/gene.html" class="quitar"><div class="item"><img src="../images/jardineria.png" alt=""> <label>Suelo</label></div></a>
     </footer>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="../js/sprinklers.js"></script>
 </body>
 
 </html>
